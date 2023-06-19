@@ -1,3 +1,26 @@
+/**
+ * Выберет случайный элемент из списка `items`.
+ * @template T
+ * @param {Array<T>} items
+ * @returns {T}
+ */
+function pickItemFromArray(items) {
+  const index = Math.floor(Math.random() * items.length);
+
+  return items[index];
+}
+
+/**
+ * Выберет случайное число в диапазоне `min` - `max`.
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+function pickIntegerInRange(min, max) {
+  const value = min + Math.random() * (max - min);
+
+  return Math.round(value);
+}
 
 /**
  * Проверит подходит ли `value` по длине.
@@ -8,8 +31,6 @@
 function fitsLength(value, length) {
   return value.length <= length;
 }
-
-fitsLength('проверяемая строка', 10);
 
 /**
  * Проверит является ли `value` палиндромом.
@@ -23,8 +44,6 @@ function isPalindrome(value) {
   return normalized === reversed;
 }
 
-isPalindrome('Лёша на полке клопа нашёл ');
-
 /**
  * Извлечёт из `value` цифры.
  * @param {string | number} value
@@ -36,4 +55,10 @@ function parseDigits(value) {
   return digits ? Number(digits) : NaN;
 }
 
-parseDigits('а я томат');
+export {
+  pickItemFromArray,
+  pickIntegerInRange,
+  fitsLength,
+  isPalindrome,
+  parseDigits,
+};
