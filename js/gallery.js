@@ -1,3 +1,5 @@
+import renderPopup from './gallery-popup.js';
+
 const gallery = document.querySelector('.pictures');
 
 /**
@@ -10,7 +12,6 @@ const thumbnailTemplate = document.querySelector('#picture');
  */
 function initGallery(data) {
   // TODO: Сортировка
-  // TODO: Полноразмерный просмотр
   renderThumbnails(data);
 }
 
@@ -35,6 +36,11 @@ function createThumbnail(data) {
   thumbnail.querySelector('.picture__img').setAttribute('alt', data.description);
   thumbnail.querySelector('.picture__comments').textContent = String(data.comments.length);
   thumbnail.querySelector('.picture__likes').textContent = String(data.likes);
+
+  thumbnail.addEventListener('click', (event) => {
+    renderPopup(data);
+    event.preventDefault();
+  });
 
   return thumbnail;
 }
