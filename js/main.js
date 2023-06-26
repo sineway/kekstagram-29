@@ -1,3 +1,4 @@
 import createPictureArray from './data.js';
+import initGallery from './gallery.js';
 
-createPictureArray();
+initGallery(createPictureArray());
