@@ -31,13 +31,17 @@ function renderPopup(data) {
 function createCommentsRenderer(data, step = 5) {
   const discussion = popup.querySelector('.social__comments');
   const moreButton = popup.querySelector('.comments-loader');
+  const [shownCount, totalCount] = popup.querySelectorAll('.comments-count');
+  const commentsTotal = data.length;
 
   data = structuredClone(data);
   discussion.textContent = '';
+  totalCount.textContent = String(commentsTotal);
 
   return () => {
     discussion.append(...data.splice(0, step).map(createComment));
     moreButton.classList.toggle('hidden', data.length === 0);
+    shownCount.textContent = String(commentsTotal - data.length);
   };
 }
 
