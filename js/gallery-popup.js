@@ -4,15 +4,41 @@ const popup = document.querySelector('.big-picture');
 const commentTemplate = popup.querySelector('.social__comment');
 
 /**
+ * @type {ReturnType<createCommentsRenderer>}
+ */
+let renderNextComments;
+
+/**
  * @param {Picture} data
  */
 function renderPopup(data) {
   popup.querySelector('.big-picture__img img').setAttribute('src', data.url);
   popup.querySelector('.social__caption').textContent = data.description;
   popup.querySelector('.likes-count').textContent = String(data.likes);
-  popup.querySelector('.social__comments').replaceChildren(...data.comments.map(createComment));
+
+  renderNextComments = createCommentsRenderer(data.comments);
+  renderNextComments();
+  popup.addEventListener('click', onPopupClick);
 
   showPopup(popup);
+}
+
+/**
+ * @param {Array<PictureComment>} data
+ * @param {number} step
+ * @returns {() => void}
+ */
+function createCommentsRenderer(data, step = 5) {
+  const discussion = popup.querySelector('.social__comments');
+  const moreButton = popup.querySelector('.comments-loader');
+
+  data = structuredClone(data);
+  discussion.textContent = '';
+
+  return () => {
+    discussion.append(...data.splice(0, step).map(createComment));
+    moreButton.classList.toggle('hidden', data.length === 0);
+  };
 }
 
 /**
@@ -27,6 +53,15 @@ function createComment(data) {
   comment.querySelector('.social__text').textContent = data.message;
 
   return comment;
+}
+
+/**
+ * @param {MouseEvent & {target: Element}} event
+ */
+function onPopupClick(event) {
+  if (event.target.closest('.comments-loader')) {
+    renderNextComments();
+  }
 }
 
 export default renderPopup;
